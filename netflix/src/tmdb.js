@@ -13,9 +13,8 @@ export default {
       {
         slug: "originals",
         title: "Netflix Originals",
-        items: await myFetch(
-          `/discover/tv?with_network=213&api_key=${API_KEY}`
-        ),
+        items: await myFetch(`/discover/tv?api_key=${API_KEY}&with_networks=213
+        `),
       },
       {
         slug: "trending",
@@ -63,5 +62,23 @@ export default {
         ),
       },
     ];
+  },
+  getMovieInfo: async (movieId, type) => {
+    let info = {};
+
+    if (movieId) {
+      switch (type) {
+        case "movie":
+          info = await myFetch(`/movie/${movieId}?api_key=${API_KEY}`);
+          break;
+        case "tv":
+          info = await myFetch(`/tv/${movieId}?api_key=${API_KEY}`);
+          break;
+        default:
+          info = null;
+          break;
+      }
+    }
+    return info;
   },
 };
